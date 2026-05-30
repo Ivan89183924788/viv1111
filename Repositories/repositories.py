@@ -86,16 +86,33 @@ async def add_products(session:AsyncSession, name:str,price:int,stock:int, categ
     await session.commit()
     return product
 
-
-
-async def rep_update_products(session:AsyncSession,data:dict,product_id:int,name:str,price:int,stock:int,category_id:int):
-    prod=select(Products).where(Products.id == product_id)
-
-    prod.name = name
-    prod.price=price
-    prod.stock=stock
-    prod.category_id=category_id
-
+async def rep_update_products(
+    session: AsyncSession,
+    product_id: int,
+    name: str,
+    price: int,
+    stock: int,
+    category_id: int
+):
+    await session.execute(
+        update(Products)
+        .where(Products.id == product_id)
+        .values(
+            name=name,
+            price=price,
+            stock=stock,
+            category_id=category_id
+        )
+    )
     await session.commit()
-    return prod
+
+
+
+async def delete_product(session: AsyncSession, product_id: int):
+    await session.execute(
+        delete(Products).where(Products.id == product_id)
+    )
+    await session.commit()
+
+
 

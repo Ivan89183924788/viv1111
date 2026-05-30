@@ -7,7 +7,7 @@ from aiogram.types import Message, CallbackQuery, FSInputFile
 from DB.db import init_db, create_all_tables, SessionMaker
 from DB.middleware_db import DBSessionMiddleware
 from Handers.handers_admin import router1
-from Handers.handers_shop import router
+# from Handers.handers_shop import router
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -23,7 +23,7 @@ async def main() -> None:
 #     await init_db(drop=False)
 #     await create_all_tables(SessionMaker)
     dp.update.middleware(DBSessionMiddleware())
-    dp.include_router(router)
+    # dp.include_router(router)
     dp.include_router(router1)
     bot = Bot(token=TOKEN)
     await dp.start_polling(bot)
